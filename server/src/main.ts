@@ -1,9 +1,9 @@
 import express from 'express';
-import {connectToDataBase, disconnectFromDataBase} from './utils/database';
+import { connectToDataBase, disconnectFromDataBase } from './utils/database';
 import cookieParser from 'cookie-parser';
 import logger from './utils/logger';
 import cors from 'cors';
-import {CORS_ORIGIN} from './constants';
+import { CORS_ORIGIN } from './constants';
 import helmet from 'helmet';
 import userRoute from './modules/user/user.route';
 import authRoute from './modules/auth/auth.route';

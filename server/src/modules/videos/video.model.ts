@@ -5,7 +5,8 @@ import {User} from '../user/user.model';
 // set videos ids to only contain alphanumeric characters
 const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 10);
 
-export class Video {
+export class Video
+{
     @prop()
     public title: string;
     @prop()

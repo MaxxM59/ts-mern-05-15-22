@@ -13,19 +13,23 @@ const MIME_TYPES = ['video/mp4', 'video/mov'];
 const CHUNK_SIZE_IN_BYTES = 1000000;
 
 // Get video path
-function getPath({videoId, extension}: {videoId: Video['videoId']; extension: Video['extension']}) {
-    return `${process.cwd()}/videos/videoId.${extension}`;
+function getPath({videoId, extension}: {videoId: Video['videoId']; extension: Video['extension'];})
+{
+    return `${ process.cwd() }/videos/videoId.${ extension }`;
 }
 
-export async function uploadVideoHandler(req: Request, res: Response) {
+export async function uploadVideoHandler(req: Request, res: Response)
+{
     const bb = busboy({headers: req.headers});
     // get current user to set the video's owner
     const user = res.locals.user;
 
     const video = await createVideo({owner: user._id});
     // Check file type
-    bb.on('file', async (_, file, info) => {
-        if (!MIME_TYPES.includes(info.mimeType)) {
+    bb.on('file', async (_, file, info) =>
+    {
+        if (!MIME_TYPES.includes(info.mimeType))
+        {
             return res.status(StatusCodes.BAD_REQUEST).send('Invalid file type');
         }
 
@@ -45,7 +49,8 @@ export async function uploadVideoHandler(req: Request, res: Response) {
         file.pipe(stream);
     });
 
-    bb.on('close', () => {
+    bb.on('close', () =>
+    {
         res.writeHead(StatusCodes.CREATED, {
             Connection: 'close',
             'Content-Type': 'application/json',
@@ -58,7 +63,8 @@ export async function uploadVideoHandler(req: Request, res: Response) {
     return req.pipe(bb);
 }
 
-export async function updateVideoHandler(req: Request<UpdateVideoParams, {}, UpdateVideoBody>, res: Response) {
+export async function updateVideoHandler(req: Request<UpdateVideoParams, {}, UpdateVideoBody>, res: Response)
+{
     // get selected video datas
     const {videoId} = req.params;
     const {title, description, published} = req.body;
@@ -66,10 +72,12 @@ export async function updateVideoHandler(req: Request<UpdateVideoParams, {}, Upd
     const {_id: userId} = res.locals.user;
 
     const video = await findVideo(videoId);
-    if (!video) {
+    if (!video)
+    {
         return res.status(StatusCodes.NOT_FOUND).send('Video not found !');
     }
-    if (String(video.owner) !== userId) {
+    if (String(video.owner) !== userId)
+    {
         return res.status(StatusCodes.UNAUTHORIZED).send('You can only update your videos !');
     }
     video.title = title;
@@ -80,20 +88,24 @@ export async function updateVideoHandler(req: Request<UpdateVideoParams, {}, Upd
     return res.status(StatusCodes.OK).send(video);
 }
 
-export async function findVIdeosHandler(_: Request, res: Response) {
+export async function findVIdeosHandler(_: Request, res: Response)
+{
     const videos = await findVideos();
     return res.status(StatusCodes.OK).send(videos);
 }
 
-export async function streamVideoHandler(req: Request, res: Response) {
+export async function streamVideoHandler(req: Request, res: Response)
+{
     const {videoId} = req.params;
     const range = req.headers.range;
 
-    if (!range) {
+    if (!range)
+    {
         return res.status(StatusCodes.BAD_REQUEST).send('Range must be provided !');
     }
     const video = await findVideo(videoId);
-    if (!video) {
+    if (!video)
+    {
         return res.status(StatusCodes.NOT_FOUND).send("Can't find this video !");
     }
     const filePath = getPath({
@@ -105,10 +117,10 @@ export async function streamVideoHandler(req: Request, res: Response) {
     const chunkEnd = Math.min(chunkStart + CHUNK_SIZE_IN_BYTES, fileSizeInBytes - 1);
     const contentLength = chunkEnd - chunkStart + 1;
     const headers = {
-        'Content-Range': `bytes ${chunkStart}-${chunkEnd}/${fileSizeInBytes}`,
+        'Content-Range': `bytes ${ chunkStart }-${ chunkEnd }/${ fileSizeInBytes }`,
         'Accept-Rangers': 'bytes',
         'Content-Length': contentLength,
-        'Content-Type': `video/${video.extension}`,
+        'Content-Type': `video/${ video.extension }`,
         //'Cross-Origin_Resource-Policy': 'cross-origin',
     };
     res.writeHead(StatusCodes.PARTIAL_CONTENT, headers);

@@ -7,7 +7,8 @@ import requireUser from '../../middleware/requireUser';
 const router = express.Router();
 
 // User Routes
-router.get('/', requireUser, (req, res) => {
+router.get('/', requireUser, (req, res) =>
+{
     return res.send(res.locals.user);
 });
 

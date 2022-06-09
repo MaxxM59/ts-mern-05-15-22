@@ -7,16 +7,20 @@ import 'dotenv/config';
 // Using local mongoDb -> Check to make remote mongoDb work
 const CONNECTION_STRING = process.env.DB_CONNECTION_STRING;
 
-export async function connectToDataBase() {
-    try {
+export async function connectToDataBase ()
+{
+    try
+    {
         await mongoose.connect(CONNECTION_STRING);
         logger.info('Connected to database');
-    } catch (e) {
+    } catch (e)
+    {
         logger.error(e, 'Failed to connect to database');
         process.exit(1);
     }
 }
-export async function disconnectFromDataBase() {
+export async function disconnectFromDataBase ()
+{
     await mongoose.connection.close();
     logger.info('Disconnected from database');
 }

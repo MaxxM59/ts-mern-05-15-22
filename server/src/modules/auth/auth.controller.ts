@@ -5,11 +5,13 @@ import {signJwt} from './auth.utils';
 import omit from '../../helpers/omit';
 import {LoginBody} from './auth.schema';
 
-export async function loginHandler(req: Request<{}, {}, LoginBody>, res: Response) {
+export async function loginHandler(req: Request<{}, {}, LoginBody>, res: Response)
+{
     const {email, password} = req.body;
     const user = await findUserByEmail(email);
 
-    if (!user || !user.comparePassword(password)) {
+    if (!user || !user.comparePassword(password))
+    {
         return res.status(StatusCodes.UNAUTHORIZED).send('Invalid email or password');
     }
 

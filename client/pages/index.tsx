@@ -1,12 +1,12 @@
-import type {NextPage} from 'next';
+import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
 import styles from '../styles/Home.module.scss';
-import {ReactElement} from 'react';
+import { ReactElement } from 'react';
 import HomePageLayout from '../layout/Home';
 
 //  XXXXXXXXXXXXXXXX
-// GO BACK TO 2h 00'
+// GO BACK TO 2h 15'
 // ^^^^^^^^^^^^^^^^^^
 
 const Home = () => {
@@ -18,4 +18,3 @@ Home.getLayout = function (page: ReactElement) {
 };
 
 export default Home;
-
