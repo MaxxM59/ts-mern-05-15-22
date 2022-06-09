@@ -1,11 +1,11 @@
 import '../styles/globals.scss';
-import type {AppProps} from 'next/app';
-import {MantineProvider} from '@mantine/core';
-import {NotificationsProvider} from '@mantine/notifications';
+import type { AppProps } from 'next/app';
+import { MantineProvider } from '@mantine/core';
+import { NotificationsProvider } from '@mantine/notifications';
 import Head from 'next/head';
-import {QueryClient, QueryClientProvider} from 'react-query';
-import {NextPage} from 'next';
-import {ReactElement, ReactNode} from 'react';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { NextPage } from 'next';
+import { ReactElement, ReactNode } from 'react';
 
 const queryClient = new QueryClient();
 
@@ -17,8 +17,7 @@ type AppPropsWithLayout = AppProps & {
     Component: NextPageWithLayout;
 };
 
-function MyApp({Component, pageProps}: AppPropsWithLayout)
-{
+function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     const getLayout = Component.getLayout || ((page) => page);
 
     return (
@@ -27,21 +26,20 @@ function MyApp({Component, pageProps}: AppPropsWithLayout)
                 <title>Youtube Clone</title>
                 <meta
                     name='viewport'
-                    content='minimumscale=1, initial-scale=1,width=device-width'
-                ></meta>
+                    content='minimumscale=1, initial-scale=1,width=device-width'></meta>
             </Head>
             <MantineProvider
                 withGlobalStyles
                 withNormalizeCSS
-                theme={{colorScheme: 'light'}}
-            >
+                theme={{ colorScheme: 'light' }}>
                 <NotificationsProvider>
                     <QueryClientProvider client={queryClient}>
                         {getLayout(
                             <main>
                                 <Component {...pageProps} />
                             </main>
-                        )}</QueryClientProvider>
+                        )}
+                    </QueryClientProvider>
                 </NotificationsProvider>
             </MantineProvider>
         </>
