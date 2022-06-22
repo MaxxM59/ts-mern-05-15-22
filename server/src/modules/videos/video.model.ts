@@ -10,7 +10,7 @@ export class Video {
     public title: string;
     @prop()
     public description: string;
-    @prop({ enum: ['mp4', 'mov'] })
+    @prop({ enum: ['mp4'] })
     public extension: string;
     @prop({ required: true, ref: () => User })
     public owner: Ref<User>;

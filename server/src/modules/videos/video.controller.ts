@@ -7,7 +7,7 @@ import { Video } from './video.model';
 import { UpdateVideoParams, UpdateVideoBody } from './video.schema';
 
 // Supported file types
-const MIME_TYPES = ['video/mp4', 'video/mov'];
+const MIME_TYPES = ['video/mp4'];
 
 // Set chunks size to 1Mb
 const CHUNK_SIZE_IN_BYTES = 1000000;
