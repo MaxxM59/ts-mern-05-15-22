@@ -1,12 +1,4 @@
-import {
-    Button,
-    Container,
-    Paper,
-    PasswordInput,
-    Stack,
-    TextInput,
-    Title,
-} from '@mantine/core';
+import { Button, Container, Paper, PasswordInput, Stack, TextInput, Title } from '@mantine/core';
 import { useForm } from '@mantine/hooks';
 import { showNotification, updateNotification } from '@mantine/notifications';
 import { AxiosError } from 'axios';
@@ -27,11 +19,7 @@ function RegisterPage() {
             confirmPassword: '',
         },
     });
-    const mutation = useMutation<
-        string,
-        AxiosError,
-        Parameters<typeof registerUser>['0']
-    >(registerUser, {
+    const mutation = useMutation<string, AxiosError, Parameters<typeof registerUser>['0']>(registerUser, {
         onMutate: () => {
             showNotification({
                 id: 'register',

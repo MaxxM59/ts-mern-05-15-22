@@ -1,24 +1,25 @@
-import {getModelForClass, prop, Ref} from '@typegoose/typegoose';
-import {customAlphabet} from 'nanoid';
-import {User} from '../user/user.model';
+import { getModelForClass, prop, Ref } from '@typegoose/typegoose';
+import { customAlphabet } from 'nanoid';
+import { User } from '../user/user.model';
 
 // set videos ids to only contain alphanumeric characters
 const nanoid = customAlphabet('1234567890abcdefghijklmnopqrstuvwxyz', 10);
 
-export class Video
-{
+export class Video {
     @prop()
     public title: string;
     @prop()
     public description: string;
-    @prop({enum: ['mp4', 'mov']})
+    @prop({ enum: ['mp4', 'mov'] })
     public extension: string;
-    @prop({required: true, ref: () => User})
+    @prop({ required: true, ref: () => User })
     public owner: Ref<User>;
-    @prop({unique: true, default: () => nanoid()})
+    @prop({ unique: true, default: () => nanoid() })
     public videoId: string;
-    @prop({default: false})
+    @prop({ default: false })
     public published: boolean;
 }
 
-export const VideoModel = getModelForClass(Video, {schemaOptions: {timestamps: true}});
+export const VideoModel = getModelForClass(Video, {
+    schemaOptions: { timestamps: true },
+});

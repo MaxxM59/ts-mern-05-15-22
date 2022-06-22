@@ -6,9 +6,7 @@ import { Me, QueryKeys } from '../types/index';
 
 const MeContext = createContext<{
     user: Me;
-    refetch: <TPageData>(
-        options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined
-    ) => any;
+    refetch: <TPageData>(options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined) => any;
     // @ts-ignore
 }>(null);
 
@@ -22,4 +20,5 @@ function MeContextProvider({ children }: { children: ReactNode }) {
 }
 
 const useMe = () => useContext(MeContext);
+
 export { MeContextProvider, useMe };

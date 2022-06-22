@@ -1,19 +1,29 @@
+import { SimpleGrid } from '@mantine/core';
 import type { NextPage } from 'next';
 import Head from 'next/head';
 import Image from 'next/image';
-import styles from '../styles/Home.module.scss';
 import { ReactElement } from 'react';
+import VideoTeaser from '../components/VideoTeaser';
+import { useVideo } from '../context/videos';
 import HomePageLayout from '../layout/Home';
-
-//  XXXXXXXXXXXXXXXX
-// GO BACK TO 2h 15'
-// ^^^^^^^^^^^^^^^^^^
-
+import styles from '../styles/Home.module.scss';
+// ^^^^^^^^^^^^^^^^
+// GO BACK TO 2H54M
+//
 const Home = () => {
-    return <div className={styles.container}></div>;
+    const { videos } = useVideo();
+    return (
+        <div className={styles.container}>
+            <SimpleGrid cols={3}>
+                {(videos || []).map((video) => {
+                    return <VideoTeaser key={video.videoId} video={video} />;
+                })}
+            </SimpleGrid>
+        </div>
+    );
 };
 
-Home.getLayout = function (page: ReactElement) {
+Home.getLayout = function getLayout(page: ReactElement) {
     return <HomePageLayout>{page}</HomePageLayout>;
 };
 

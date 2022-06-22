@@ -1,49 +1,58 @@
-import '../styles/globals.scss';
-import type { AppProps } from 'next/app';
-import { MantineProvider } from '@mantine/core';
-import { NotificationsProvider } from '@mantine/notifications';
-import Head from 'next/head';
-import { QueryClient, QueryClientProvider } from 'react-query';
-import { NextPage } from 'next';
-import { ReactElement, ReactNode } from 'react';
+import "../styles/globals.scss";
+import { AppProps } from "next/app";
+import Head from "next/head";
+import { QueryClient, QueryClientProvider } from "react-query";
+import { MantineProvider } from "@mantine/core";
+import { NotificationsProvider } from "@mantine/notifications";
+import { NextPage } from "next";
+import { ReactElement, ReactNode } from "react";
+import { MeContextProvider } from "../context/me";
 
 const queryClient = new QueryClient();
 
-// Extended Classes
 type NextPageWithLayout = NextPage & {
-    getLayout?: (page: ReactElement) => ReactNode;
+  getLayout?: (page: ReactElement) => ReactNode;
 };
+
 type AppPropsWithLayout = AppProps & {
-    Component: NextPageWithLayout;
+  Component: NextPageWithLayout;
 };
 
-function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-    const getLayout = Component.getLayout || ((page) => page);
+export default function App(props: AppPropsWithLayout) {
+  const { Component, pageProps } = props;
 
-    return (
-        <>
-            <Head>
-                <title>Youtube Clone</title>
-                <meta
-                    name='viewport'
-                    content='minimumscale=1, initial-scale=1,width=device-width'></meta>
-            </Head>
-            <MantineProvider
-                withGlobalStyles
-                withNormalizeCSS
-                theme={{ colorScheme: 'light' }}>
-                <NotificationsProvider>
-                    <QueryClientProvider client={queryClient}>
-                        {getLayout(
-                            <main>
-                                <Component {...pageProps} />
-                            </main>
-                        )}
-                    </QueryClientProvider>
-                </NotificationsProvider>
-            </MantineProvider>
-        </>
-    );
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? ((page) => page);
+
+  return (
+    <>
+      <Head>
+        <title>Page title</title>
+        <meta
+          name="viewport"
+          content="minimum-scale=1, initial-scale=1, width=device-width"
+        />
+      </Head>
+
+      <MantineProvider
+        withGlobalStyles
+        withNormalizeCSS
+        theme={{
+          colorScheme: "light",
+        }}
+      >
+        <NotificationsProvider>
+          <QueryClientProvider client={queryClient}>
+            <MeContextProvider>
+              {getLayout(
+                <main>
+                  <Component {...pageProps} />
+                </main>
+              )}
+            </MeContextProvider>
+          </QueryClientProvider>
+        </NotificationsProvider>
+      </MantineProvider>
+    </>
+  );
 }
-
-export default MyApp;
